@@ -34,6 +34,8 @@ import org.nasdanika.models.maven.Model;
 
 public class TestGenerateDependencyGraph {
 	
+	private static final String MODELS_GROUP_PREFIX = "org.nasdanika.models.";
+
 	enum Metric {
 		
 		REPO,
@@ -54,7 +56,7 @@ public class TestGenerateDependencyGraph {
 		
 	}
 		
-	private final String[] GIT_REPOS = { "core", "html", "cli", "nasdanika.github.io", "retrieval-augmented-generation" };	
+	private final String[] GIT_REPOS = { "core", "html", /* "cli" , "nasdanika.github.io", "retrieval-augmented-generation" */};	
 	private final String[] GIT_MODEL_REPOS = { 
 		"echarts",
 		"ecore",
@@ -150,9 +152,10 @@ public class TestGenerateDependencyGraph {
 	
 	/**
 	 * Computes code stats - modules, source files, lines of code.
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGenerateDependencyGraph() {		
+	public void testGenerateDependencyGraph() throws IOException {		
 		Map<Metric, int[]> measurements = new TreeMap<>();
 		BiConsumer<Metric, Integer> measurementConsumer = (metric, measurement) -> measurements.computeIfAbsent(metric, m -> new int[] { 0 })[0] += measurement;
 		Map<CoordinatesRecord, Entry<File, Model>> models = new HashMap<>();
@@ -167,6 +170,13 @@ public class TestGenerateDependencyGraph {
 		}
 			
 		measurements.entrySet().forEach(e -> System.out.println(e.getKey() + " = " + e.getValue()[0]));
+		
+		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {
+			me.getValue().getValue().resolve(c -> {
+				Entry<File, Model> e = models.get(new CoordinatesRecord(c));
+				return e == null ? null : e.getValue();
+			});
+		}		
 		
 		Graph graph = GraphFactory.eINSTANCE.createGraph();
 		
@@ -184,17 +194,42 @@ public class TestGenerateDependencyGraph {
 		
 		Item otherCategory = GraphFactory.eINSTANCE.createItem();
 		otherCategory.setName("Other");
-		graph.getCategories().add(otherCategory);
+//		graph.getCategories().add(otherCategory);
 		
-		Function<Model, Integer> sizeComputer = model -> 0; 		
+		Map<CoordinatesRecord, Integer> sizeMap = new HashMap<>();
+		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {
+			Map<Metric, int[]> modelMeasurements = new TreeMap<>();
+			BiConsumer<Metric, Integer> modelMeasurementConsumer = (metric, measurement) -> modelMeasurements.computeIfAbsent(metric, m -> new int[] { 0 })[0] += measurement;
+			repoStats(me.getValue().getKey().getParentFile(), modelMeasurementConsumer, (file, model) -> {});
+			int[] loc = modelMeasurements.get(Metric.LINE_OF_CODE);
+			if (loc != null) {
+				sizeMap.put(new CoordinatesRecord(me.getValue().getValue()), loc[0]);
+			}
+		}				
 		
-		Map<CoordinatesRecord, Node> nodeMap = new HashMap<>();
-		Function<Model, Node> resolver	= model -> {
-			return nodeMap.computeIfAbsent(new CoordinatesRecord(model), c -> createModelNode(model, sizeComputer, graph, coreCategory, htmlCategory, modelsCategory, otherCategory));	
+		Function<Model, Integer> sizeComputer = model -> {
+			Integer result = sizeMap.get(new CoordinatesRecord(model));
+			return result == null ? 0 : result;
 		};
 		
+		Map<CoordinatesRecord, Node> nodeMap = new HashMap<>();
+		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {			
+			Model model = me.getValue().getValue();
+			if ("jar".equals(model.getPackaging())) {
+				nodeMap.put(me.getKey(),  createModelNode(
+						model, 
+						sizeComputer, 
+						graph, 
+						coreCategory, 
+						htmlCategory, 
+						modelsCategory, otherCategory));
+			}
+		}
+		
+		Function<Model, Node> resolver	= model -> nodeMap.get(new CoordinatesRecord(model));	
+		
 		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {
-			createAndLink(
+			link(
 					me.getValue().getValue(), 
 					resolver,
 					graph, 
@@ -218,12 +253,14 @@ public class TestGenerateDependencyGraph {
 		graph.configureGraphSeries(graphSeries);
 		
     	org.icepear.echarts.Graph echartsGraph = new org.icepear.echarts.Graph()
-                .setTitle("Module Dependencies")
+                .setTitle("Maven Dependencies")
                 .setLegend()
                 .addSeries(graphSeries);
     	
 	    Engine engine = new Engine();
 	    String chartJSON = engine.renderJsonOption(echartsGraph);
+	    
+	    System.out.println(chartJSON);
 	    
 		String chartHTML = Context
 				.singleton("chart", chartJSON)
@@ -306,7 +343,7 @@ public class TestGenerateDependencyGraph {
 		}
 	}
 	
-	private void createAndLink(
+	private void link(
 			Model model, 
 			Function<Model, Node> resolver,
 			Graph graph,
@@ -314,10 +351,12 @@ public class TestGenerateDependencyGraph {
 			Item htmlCategory,
 			Item modelsCategory,
 			Item otherCategory) {
-		Node modelNode = resolver.apply(model);
+		Node modelNode = resolver.apply(model);				
 		if (modelNode != null) {			
+			System.out.println(modelNode.getId());
 			for (Dependency dependency: model.getDependencies()) {
 				Model target = dependency.getTarget();
+				System.out.println("\t" + dependency.getGroupId() + ":" + dependency.getArtifactId() + " -> " + target);
 				if (target != null) {
 					Node depNode = resolver.apply(target);
 					if (depNode != null) {
@@ -340,20 +379,24 @@ public class TestGenerateDependencyGraph {
 			Item otherCategory) {
 		
 		Node ret = GraphFactory.eINSTANCE.createNode();
-		String nodeName = model.getArtifactId();
-		ret.setName(nodeName);
+		String nodeName = model.getId();
+		ret.setId(model.getId());
 		
-		if (ret.getName().startsWith("org.nasdanika.html.")) {
+		if (ret.getId().startsWith("org.nasdanika.html:")) {
 			ret.setCategory(htmlCategory);
-		} else if (ret.getName().startsWith("org.nasdanika.models")) {
+			ret.setName(model.getArtifactId());
+		} else if (ret.getId().startsWith(MODELS_GROUP_PREFIX)) {
 			ret.setCategory(modelsCategory);
-		} else if (ret.getName().startsWith("org.nasdanika.")) {
+			ret.setName(model.getGroupId().substring(MODELS_GROUP_PREFIX.length()) + ":" + model.getArtifactId());
+		} else if (ret.getId().startsWith("org.nasdanika.core:")) {
 			ret.setCategory(coreCategory);
+			ret.setName(model.getArtifactId());
 		} else {
 			ret.setCategory(otherCategory);
+			ret.setName(nodeName);
 		}
 		
-		ret.getSymbolSize().add(10.0 + Math.log(1 + sizeComputer.apply(model)));
+		ret.getSymbolSize().add(10.0 + 2 * Math.log(1 + sizeComputer.apply(model)));
 		
 		graph.getNodes().add(ret);
 		return ret;
