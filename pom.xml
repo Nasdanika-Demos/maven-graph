@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nasdanika.demos</groupId>
-	<version>2024.10.0</version>
+	<version>2024.11.0</version>
 	<artifactId>maven-graph</artifactId>
 	<packaging>jar</packaging>
 	<name>Generation of a ECharts graph from Maven dependencies</name>
@@ -11,13 +11,13 @@
 	<dependencies>
 		<dependency>			
 			<groupId>org.nasdanika.models.echarts</groupId>
-			<version>2024.10.0</version>
+			<version>2024.11.0</version>
 			<artifactId>graph</artifactId>
 		</dependency>				
 		<dependency>			
 			<groupId>org.nasdanika.models.maven</groupId>
 			<artifactId>model</artifactId>
-			<version>2024.10.0</version>
+			<version>2024.11.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.jgrapht</groupId>
