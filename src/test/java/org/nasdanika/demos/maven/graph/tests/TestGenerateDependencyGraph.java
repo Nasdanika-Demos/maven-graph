@@ -35,6 +35,8 @@ import org.nasdanika.models.maven.Model;
 public class TestGenerateDependencyGraph {
 	
 	private static final String MODELS_GROUP_PREFIX = "org.nasdanika.models.";
+	private static final String DEMOS_GROUP_PREFIX = "org.nasdanika.demos";
+	private static final String TEMPLATES_GROUP_PREFIX = "org.nasdanika.templates.";
 
 	enum Metric {
 		
@@ -84,6 +86,30 @@ public class TestGenerateDependencyGraph {
 		"nature",
 		"rules"
 	};
+	private final String[] GIT_DEMO_REPOS = { 
+//		"aws-diagram-doc",
+//		"bob-the-builder",		
+		"cli",
+		"compute-graph",
+		"concurrent-executable-diagrams",
+//		"connecting-the-dots",
+//		"declarative-command-pipelines",
+//		"diagram-processor-activation",
+		"executable-diagram-dynamic-proxy",
+//		"executable-graphs-and-diagrams",
+//		"executable-uris-story",
+//		"family-semantic-mapping",
+//		"general-purpose-executable-diagrams-story",
+//		"gitlab-junit-assistant",
+//		"internet-banking-system",
+		"internet-banking-system-c4",
+//		"living-beings",
+		"maven-graph",
+		"semantic-mapping",
+//		"visual-communication-continuum"
+	};
+	
+	private final String[] GIT_TEMPLATE_REPOS = { "drawio-site" };	
 	
 	private final static String GRAPH_TEMPLATE = 
 			"""
@@ -168,6 +194,12 @@ public class TestGenerateDependencyGraph {
 		for (String gitModelRepo: GIT_MODEL_REPOS) {
 			repoStats(new File("../../git-models/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
 		}
+		for (String gitModelRepo: GIT_DEMO_REPOS) {
+			repoStats(new File("../../git-demos/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
+		}
+		for (String gitModelRepo: GIT_TEMPLATE_REPOS) {
+			repoStats(new File("../../git-templates/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
+		}
 			
 		measurements.entrySet().forEach(e -> System.out.println(e.getKey() + " = " + e.getValue()[0]));
 		
@@ -191,6 +223,14 @@ public class TestGenerateDependencyGraph {
 		Item modelsCategory = GraphFactory.eINSTANCE.createItem();
 		modelsCategory.setName("Models");
 		graph.getCategories().add(modelsCategory);
+				
+		Item demosCategory = GraphFactory.eINSTANCE.createItem();
+		demosCategory.setName("Demos");
+		graph.getCategories().add(demosCategory);
+				
+		Item templatesCategory = GraphFactory.eINSTANCE.createItem();
+		templatesCategory.setName("Templates");
+//		graph.getCategories().add(templatesCategory);
 		
 		Item otherCategory = GraphFactory.eINSTANCE.createItem();
 		otherCategory.setName("Other");
@@ -222,7 +262,10 @@ public class TestGenerateDependencyGraph {
 						graph, 
 						coreCategory, 
 						htmlCategory, 
-						modelsCategory, otherCategory));
+						modelsCategory, 
+						templatesCategory,
+						demosCategory,
+						otherCategory));
 			}
 		}
 		
@@ -236,6 +279,8 @@ public class TestGenerateDependencyGraph {
 					coreCategory, 
 					htmlCategory, 
 					modelsCategory, 
+					templatesCategory,
+					demosCategory,
 					otherCategory);
 		}
 		
@@ -350,6 +395,8 @@ public class TestGenerateDependencyGraph {
 			Item coreCategory,
 			Item htmlCategory,
 			Item modelsCategory,
+			Item templatesCategory,
+			Item demosCategory,
 			Item otherCategory) {
 		Node modelNode = resolver.apply(model);				
 		if (modelNode != null) {			
@@ -376,6 +423,8 @@ public class TestGenerateDependencyGraph {
 			Item coreCategory,
 			Item htmlCategory,
 			Item modelsCategory,
+			Item templatesCategory,
+			Item demosCategory,
 			Item otherCategory) {
 		
 		Node ret = GraphFactory.eINSTANCE.createNode();
@@ -388,6 +437,15 @@ public class TestGenerateDependencyGraph {
 		} else if (ret.getId().startsWith(MODELS_GROUP_PREFIX)) {
 			ret.setCategory(modelsCategory);
 			ret.setName(model.getGroupId().substring(MODELS_GROUP_PREFIX.length()) + ":" + model.getArtifactId());
+		} else if (ret.getId().startsWith(DEMOS_GROUP_PREFIX + ".")) {
+			ret.setCategory(demosCategory);
+			ret.setName(model.getGroupId().substring(DEMOS_GROUP_PREFIX.length() + 1) + ":" + model.getArtifactId());
+		} else if (ret.getId().startsWith(DEMOS_GROUP_PREFIX + ":")) {
+			ret.setCategory(demosCategory);
+			ret.setName(model.getArtifactId());
+		} else if (ret.getId().startsWith(TEMPLATES_GROUP_PREFIX)) {
+			ret.setCategory(templatesCategory);
+			ret.setName(model.getGroupId().substring(TEMPLATES_GROUP_PREFIX.length()) + ":" + model.getArtifactId());
 		} else if (ret.getId().startsWith("org.nasdanika.core:")) {
 			ret.setCategory(coreCategory);
 			ret.setName(model.getArtifactId());
