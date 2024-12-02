@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -176,39 +178,31 @@ public class TestGenerateDependencyGraph {
 			</html>
 			""";		
 	
+	@Test
+	public void testInitJavadocIo() throws IOException {		
+		Map<CoordinatesRecord, Entry<File, Model>> models = load();
+		for (CoordinatesRecord cr: models.keySet()) {
+			String urlStr = "https://javadoc.io/doc/" + cr.groupId() + "/" + cr.artifactId() + "/" + cr.version() + "/";
+			System.out.print(urlStr);
+			try {
+				URL url = new URL(urlStr);
+				try (InputStream in = url.openStream()) {
+					in.read();
+				}
+				System.out.println(": OK!");
+			} catch (Exception e) {
+				System.out.println(": " + e);
+			}
+		}
+	}
+	
 	/**
 	 * Computes code stats - modules, source files, lines of code.
 	 * @throws IOException 
 	 */
 	@Test
 	public void testGenerateDependencyGraph() throws IOException {		
-		Map<Metric, int[]> measurements = new TreeMap<>();
-		BiConsumer<Metric, Integer> measurementConsumer = (metric, measurement) -> measurements.computeIfAbsent(metric, m -> new int[] { 0 })[0] += measurement;
-		Map<CoordinatesRecord, Entry<File, Model>> models = new HashMap<>();
-		BiConsumer<File, Model> mavenModelConsumer = (file, model) -> {
-			models.put(new CoordinatesRecord(model), Map.entry(file, model));
-		};
-		for (String gitRepo: GIT_REPOS) {
-			repoStats(new File("../../git/" + gitRepo), measurementConsumer, mavenModelConsumer);
-		}
-		for (String gitModelRepo: GIT_MODEL_REPOS) {
-			repoStats(new File("../../git-models/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
-		}
-		for (String gitModelRepo: GIT_DEMO_REPOS) {
-			repoStats(new File("../../git-demos/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
-		}
-		for (String gitModelRepo: GIT_TEMPLATE_REPOS) {
-			repoStats(new File("../../git-templates/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
-		}
-			
-		measurements.entrySet().forEach(e -> System.out.println(e.getKey() + " = " + e.getValue()[0]));
-		
-		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {
-			me.getValue().getValue().resolve(c -> {
-				Entry<File, Model> e = models.get(new CoordinatesRecord(c));
-				return e == null ? null : e.getValue();
-			});
-		}		
+		Map<CoordinatesRecord, Entry<File, Model>> models = load();		
 		
 		Graph graph = GraphFactory.eINSTANCE.createGraph();
 		
@@ -313,6 +307,37 @@ public class TestGenerateDependencyGraph {
 				.interpolateToString(GRAPH_TEMPLATE);
 	    
 	    Files.writeString(new File("docs/index.html").toPath(), chartHTML);
+	}
+
+	protected Map<CoordinatesRecord, Entry<File, Model>> load() {
+		Map<Metric, int[]> measurements = new TreeMap<>();
+		BiConsumer<Metric, Integer> measurementConsumer = (metric, measurement) -> measurements.computeIfAbsent(metric, m -> new int[] { 0 })[0] += measurement;
+		Map<CoordinatesRecord, Entry<File, Model>> models = new HashMap<>();
+		BiConsumer<File, Model> mavenModelConsumer = (file, model) -> {
+			models.put(new CoordinatesRecord(model), Map.entry(file, model));
+		};
+		for (String gitRepo: GIT_REPOS) {
+			repoStats(new File("../../git/" + gitRepo), measurementConsumer, mavenModelConsumer);
+		}
+		for (String gitModelRepo: GIT_MODEL_REPOS) {
+			repoStats(new File("../../git-models/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
+		}
+		for (String gitModelRepo: GIT_DEMO_REPOS) {
+			repoStats(new File("../../git-demos/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
+		}
+		for (String gitModelRepo: GIT_TEMPLATE_REPOS) {
+			repoStats(new File("../../git-templates/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
+		}
+			
+		measurements.entrySet().forEach(e -> System.out.println(e.getKey() + " = " + e.getValue()[0]));
+		
+		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {
+			me.getValue().getValue().resolve(c -> {
+				Entry<File, Model> e = models.get(new CoordinatesRecord(c));
+				return e == null ? null : e.getValue();
+			});
+		}
+		return models;
 	}
 	
 	private void repoStats(
