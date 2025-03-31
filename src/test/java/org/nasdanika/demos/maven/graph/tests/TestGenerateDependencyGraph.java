@@ -60,7 +60,7 @@ public class TestGenerateDependencyGraph {
 		
 	}
 		
-	private final String[] GIT_REPOS = { "core", "html", /* "cli" , "nasdanika.github.io", "retrieval-augmented-generation" */};	
+	private final String[] GIT_REPOS = { "core", "html", "cli", "ai" /* "cli" , "nasdanika.github.io", "retrieval-augmented-generation" */};	
 	private final String[] GIT_MODEL_REPOS = { 
 		"echarts",
 		"ecore",
@@ -86,7 +86,11 @@ public class TestGenerateDependencyGraph {
 		"enterprise",
 		"function-flow",
 		"nature",
-		"rules"
+		"rules",
+		"crew-ai",
+		"python",
+		"jira",
+		"education"
 	};
 	private final String[] GIT_DEMO_REPOS = { 
 //		"aws-diagram-doc",
@@ -210,6 +214,10 @@ public class TestGenerateDependencyGraph {
 		coreCategory.setName("Core");
 		graph.getCategories().add(coreCategory);
 		
+		Item aiCategory = GraphFactory.eINSTANCE.createItem();
+		aiCategory.setName("AI");
+		graph.getCategories().add(aiCategory);
+		
 		Item htmlCategory = GraphFactory.eINSTANCE.createItem();
 		htmlCategory.setName("HTML");
 		graph.getCategories().add(htmlCategory);
@@ -228,7 +236,7 @@ public class TestGenerateDependencyGraph {
 		
 		Item otherCategory = GraphFactory.eINSTANCE.createItem();
 		otherCategory.setName("Other");
-//		graph.getCategories().add(otherCategory);
+		graph.getCategories().add(otherCategory);
 		
 		Map<CoordinatesRecord, Integer> sizeMap = new HashMap<>();
 		for (Entry<CoordinatesRecord, Entry<File, Model>> me: models.entrySet()) {
@@ -256,6 +264,7 @@ public class TestGenerateDependencyGraph {
 						graph, 
 						coreCategory, 
 						htmlCategory, 
+						aiCategory,
 						modelsCategory, 
 						templatesCategory,
 						demosCategory,
@@ -447,6 +456,7 @@ public class TestGenerateDependencyGraph {
 			Graph graph,
 			Item coreCategory,
 			Item htmlCategory,
+			Item aiCategory,
 			Item modelsCategory,
 			Item templatesCategory,
 			Item demosCategory,
@@ -474,12 +484,15 @@ public class TestGenerateDependencyGraph {
 		} else if (ret.getId().startsWith("org.nasdanika.core:")) {
 			ret.setCategory(coreCategory);
 			ret.setName(model.getArtifactId());
+		} else if (ret.getId().startsWith("org.nasdanika.ai:")) {
+			ret.setCategory(aiCategory);
+			ret.setName(model.getArtifactId());
 		} else {
 			ret.setCategory(otherCategory);
 			ret.setName(nodeName);
 		}
 		
-		ret.getSymbolSize().add(10.0 + 2 * Math.log(1 + sizeComputer.apply(model)));
+		ret.getSymbolSize().add(5.0 + Math.log(1 + sizeComputer.apply(model)));
 		
 		graph.getNodes().add(ret);
 		return ret;
