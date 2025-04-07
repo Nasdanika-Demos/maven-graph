@@ -200,6 +200,8 @@ public class TestGenerateDependencyGraph {
 		}
 	}
 	
+	
+	
 	/**
 	 * Computes code stats - modules, source files, lines of code.
 	 * @throws IOException 
