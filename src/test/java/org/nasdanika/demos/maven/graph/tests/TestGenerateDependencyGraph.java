@@ -109,8 +109,10 @@ public class TestGenerateDependencyGraph {
 //		"gitlab-junit-assistant",
 //		"internet-banking-system",
 		"internet-banking-system-c4",
+		"jira",
 //		"living-beings",
 		"maven-graph",
+		"mcp-server",
 		"semantic-mapping",
 //		"visual-communication-continuum"
 	};
