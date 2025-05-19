@@ -21,12 +21,17 @@ import org.icepear.echarts.charts.graph.GraphSeries;
 import org.icepear.echarts.components.series.SeriesLabel;
 import org.icepear.echarts.render.Engine;
 import org.jgrapht.alg.drawing.FRLayoutAlgorithm2D;
+import org.jgrapht.alg.drawing.model.Point2D;
+import org.jgrapht.alg.drawing.model.Points;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.nasdanika.common.Context;
 import org.nasdanika.common.NasdanikaException;
 import org.nasdanika.models.echarts.graph.Graph;
 import org.nasdanika.models.echarts.graph.GraphFactory;
 import org.nasdanika.models.echarts.graph.Item;
+import org.nasdanika.models.echarts.graph.Link;
 import org.nasdanika.models.echarts.graph.Node;
 import org.nasdanika.models.echarts.graph.util.GraphUtil;
 import org.nasdanika.models.maven.Coordinates;
@@ -320,7 +325,135 @@ public class TestGenerateDependencyGraph {
 				.interpolateToString(GRAPH_TEMPLATE);
 	    
 	    Files.writeString(new File("docs/index.html").toPath(), chartHTML);
+	    
+	    // 3D force graph - https://github.com/vasturiano/3d-force-graph?tab=readme-ov-file
+	    JSONObject force3DGraph = new JSONObject();
+	    JSONArray jNodes = new JSONArray();
+	    force3DGraph.put("nodes", jNodes);
+	    JSONArray jLinks = new JSONArray();
+	    force3DGraph.put("links", jLinks);
+	    
+	    for (Node node: graph.getNodes()) {
+	    	JSONObject jNode = new JSONObject();
+	    	jNodes.put(jNode);
+	    	jNode.put("id", node.getId());
+	    	jNode.put("name", node.getName());
+	    	jNode.put("group", node.getCategory().getName());
+	    	for (Double symbolSize: node.getSymbolSize()) {
+	    		jNode.put("size", symbolSize / 2);
+	    	}
+	    	Double x = node.getX();
+	    	Double y = node.getY();
+	    	Point2D point = x != null && y != null ? Point2D.of(x, y) : null;
+	    	for (Link link: node.getOutgoingLinks()) {
+	    		JSONObject jLink = new JSONObject();
+	    		jLink.put("source", node.getId());
+	    		jLink.put("target", link.getTarget().getId());
+
+	    		if (point != null) {
+			    	Double tx = link.getTarget().getX();
+			    	Double ty = link.getTarget().getY();
+			    	Point2D tPoint = tx != null && ty != null ? Point2D.of(tx, ty) : null;
+			    	if (tPoint != null) {
+			    		Point2D diff = Points.subtract(tPoint, point);
+			    		double linkValue = Points.length(diff);
+			    		jLink.put("value", linkValue);
+			    	}
+	    		}
+	    		jLinks.put(jLink);
+	    	}
+	    }	    
+	    
+	    Files.writeString(new File("docs/graph-3d.html").toPath(), Context.singleton("graph-data", force3DGraph.toString(2)).interpolateToString(GRAPH_3D));	    
 	}
+	
+	private static final String GRAPH_3D = 
+		"""
+		<head>
+		  <style> body { margin: 0; } </style>
+		
+		  <script src="//cdn.jsdelivr.net/npm/3d-force-graph"></script>
+		</head>
+		
+		<body>
+		  <div id="3d-graph"></div>
+		
+		  <script>
+		    const gData = ${graph-data};
+		
+//		    // cross-link node objects
+//		    gData.links.forEach(link => {
+//		      const a = gData.nodes[link.source];
+//		      const b = gData.nodes[link.target];
+//		      !a.neighbors && (a.neighbors = []);
+//		      !b.neighbors && (b.neighbors = []);
+//		      a.neighbors.push(b);
+//		      b.neighbors.push(a);
+//		
+//		      !a.links && (a.links = []);
+//		      !b.links && (b.links = []);
+//		      a.links.push(link);
+//		      b.links.push(link);
+//		    });
+		
+		    const highlightNodes = new Set();
+		    const highlightLinks = new Set();
+		    let hoverNode = null;
+		    const Graph = new ForceGraph3D(document.getElementById('3d-graph'))
+		        .graphData(gData)
+		        .nodeLabel('id')
+		        .nodeAutoColorBy('group')
+			.nodeVal('size')
+			.linkDirectionalArrowLength(3.5)
+			.linkDirectionalArrowRelPos(1)
+//		        .nodeColor(node => highlightNodes.has(node) ? node === hoverNode ? 'rgb(255,0,0,1)' : 'rgba(255,160,0,0.8)' : 'rgba(0,255,255,0.6)')
+//		        .linkWidth(link => highlightLinks.has(link) ? 4 : 1)
+//		        .linkDirectionalParticles(link => highlightLinks.has(link) ? 4 : 0)
+//		        .linkDirectionalParticleWidth(4)
+		        .onNodeDragEnd(node => {
+		          node.fx = node.x;
+		          node.fy = node.y;
+		          node.fz = node.z;
+		        })
+		        .onNodeHover(node => {
+//		          // no state change
+//		          if ((!node && !highlightNodes.size) || (node && hoverNode === node)) return;
+//		
+//		          highlightNodes.clear();
+//		          highlightLinks.clear();
+//		          if (node) {
+//		            highlightNodes.add(node);
+//		            node.neighbors.forEach(neighbor => highlightNodes.add(neighbor));
+//		            node.links.forEach(link => highlightLinks.add(link));
+//		          }
+//		
+//		          hoverNode = node || null;
+//		
+//		          updateHighlight();
+		        })
+		        .onLinkHover(link => {
+//		          highlightNodes.clear();
+//		          highlightLinks.clear();
+//		
+//		          if (link) {
+//		            highlightLinks.add(link);
+//		            highlightNodes.add(link.source);
+//		            highlightNodes.add(link.target);
+//		          }
+//		
+//		          updateHighlight();
+		        });
+		
+		    function updateHighlight() {
+		      // trigger update of highlighted objects in scene
+		      Graph
+		        .nodeColor(Graph.nodeColor())
+		        .linkWidth(Graph.linkWidth())
+		        .linkDirectionalParticles(Graph.linkDirectionalParticles());
+		    };
+		  </script>
+		</body>			
+		""";
 
 	protected Map<CoordinatesRecord, Entry<File, Model>> load() {
 		Map<Metric, int[]> measurements = new TreeMap<>();
