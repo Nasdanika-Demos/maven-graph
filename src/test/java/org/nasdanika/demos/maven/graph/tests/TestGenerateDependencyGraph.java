@@ -364,6 +364,9 @@ public class TestGenerateDependencyGraph {
 	    	}
 	    }	    
 	    
+	    System.out.println("Graph nodes: " + jNodes.length());
+	    System.out.println("Graph links: " + jLinks.length());
+	    
 	    Files.writeString(new File("docs/graph-3d.html").toPath(), Context.singleton("graph-data", force3DGraph.toString(2)).interpolateToString(GRAPH_3D));	    
 	}
 	
