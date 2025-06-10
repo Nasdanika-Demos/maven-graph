@@ -19,6 +19,44 @@ import org.icepear.echarts.charts.graph.GraphEdgeLineStyle;
 import org.icepear.echarts.charts.graph.GraphEmphasis;
 import org.icepear.echarts.charts.graph.GraphSeries;
 import org.icepear.echarts.components.series.SeriesLabel;
+import org.jgrapht.alg.drawing.FRLayoutAlgorithm2D;
+import org.jgrapht.alg.drawing.model.Points;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
+import org.nasdanika.common.NasdanikaException;
+import org.nasdanika.html.HTMLFactory;
+import org.nasdanika.html.HTMLPage;
+import org.nasdanika.html.TagName;
+import org.nasdanika.html.forcegraph3d.ForceGraph3D;
+import org.nasdanika.html.forcegraph3d.ForceGraph3DFactory;
+import org.nasdanika.models.echarts.graph.Graph;
+import org.nasdanika.models.echarts.graph.GraphFactory;
+import org.nasdanika.models.echarts.graph.Item;
+import org.nasdanika.models.echarts.graph.Node;
+import org.nasdanika.models.echarts.graph.util.GraphUtil;
+import org.nasdanika.models.maven.Coordinates;
+import org.nasdanika.models.maven.Dependency;
+import org.nasdanika.models.maven.MavenFactory;
+import org.nasdanika.models.maven.Model;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
+import org.icepear.echarts.charts.graph.GraphEdgeLineStyle;
+import org.icepear.echarts.charts.graph.GraphEmphasis;
+import org.icepear.echarts.charts.graph.GraphSeries;
+import org.icepear.echarts.components.series.SeriesLabel;
 import org.icepear.echarts.render.Engine;
 import org.jgrapht.alg.drawing.FRLayoutAlgorithm2D;
 import org.jgrapht.alg.drawing.model.Point2D;
@@ -326,6 +364,18 @@ public class TestGenerateDependencyGraph {
 	    
 	    Files.writeString(new File("docs/index.html").toPath(), chartHTML);
 	    
+	    // 3D force graph Nasdanika fluent Java API
+		ForceGraph3DFactory forceGraph3DFactory = ForceGraph3DFactory.INSTANCE;
+		ForceGraph3D forceGraph3D = forceGraph3DFactory.create();
+		forceGraph3D.name("graph");
+		String forceGraphContainerId = "force-graph";
+		forceGraph3D
+			.elementId(forceGraphContainerId)
+			.nodeAutoColorBy("'group'")
+			.nodeVal("'size'")
+			.linkDirectionalArrowLength(3.5)
+			.linkDirectionalArrowRelPos(1);
+	    
 	    // 3D force graph - https://github.com/vasturiano/3d-force-graph?tab=readme-ov-file
 	    JSONObject force3DGraph = new JSONObject();
 	    JSONArray jNodes = new JSONArray();
@@ -345,6 +395,9 @@ public class TestGenerateDependencyGraph {
 	    	Double x = node.getX();
 	    	Double y = node.getY();
 	    	Point2D point = x != null && y != null ? Point2D.of(x, y) : null;
+	    	
+	    	forceGraph3D.addNode(jNode);
+	    	
 	    	for (Link link: node.getOutgoingLinks()) {
 	    		JSONObject jLink = new JSONObject();
 	    		jLink.put("source", node.getId());
@@ -361,13 +414,22 @@ public class TestGenerateDependencyGraph {
 			    	}
 	    		}
 	    		jLinks.put(jLink);
+		    	forceGraph3D.addLink(jLink);
 	    	}
 	    }	    
 	    
 	    System.out.println("Graph nodes: " + jNodes.length());
 	    System.out.println("Graph links: " + jLinks.length());
 	    
-	    Files.writeString(new File("docs/graph-3d.html").toPath(), Context.singleton("graph-data", force3DGraph.toString(2)).interpolateToString(GRAPH_3D));	    
+	    Files.writeString(new File("docs/graph-3d.html").toPath(), Context.singleton("graph-data", force3DGraph.toString(2)).interpolateToString(GRAPH_3D));	
+	    
+	    // The same thing but with the 3d-force-graph module
+	    
+		HTMLPage page = HTMLFactory.INSTANCE.page();
+		forceGraph3DFactory.cdn(page);
+		page.body(HTMLFactory.INSTANCE.div().id(forceGraphContainerId));				
+		page.body(TagName.script.create(System.lineSeparator(), forceGraph3D));
+	    Files.writeString(new File("docs/force-graph-3d.html").toPath(), page.toString());	
 	}
 	
 	private static final String GRAPH_3D = 
@@ -457,7 +519,7 @@ public class TestGenerateDependencyGraph {
 		  </script>
 		</body>			
 		""";
-
+	
 	protected Map<CoordinatesRecord, Entry<File, Model>> load() {
 		Map<Metric, int[]> measurements = new TreeMap<>();
 		BiConsumer<Metric, Integer> measurementConsumer = (metric, measurement) -> measurements.computeIfAbsent(metric, m -> new int[] { 0 })[0] += measurement;

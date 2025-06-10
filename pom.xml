@@ -14,11 +14,23 @@
 			<version>2025.5.0</version>
 			<artifactId>graph</artifactId>
 		</dependency>				
+        <dependency>            
+            <groupId>org.nasdanika.html</groupId>
+            <version>2025.5.0</version>
+            <artifactId>3d-force-graph</artifactId>
+        </dependency>               
 		<dependency>			
 			<groupId>org.nasdanika.models.maven</groupId>
 			<artifactId>model</artifactId>
 			<version>2025.5.0</version>
 		</dependency>
+		
+        <dependency>
+          <groupId>com.webcohesion.ofx4j</groupId>
+          <artifactId>ofx4j</artifactId>
+          <version>1.37</version>
+        </dependency>		
+		
 		<dependency>
 		    <groupId>org.jgrapht</groupId>
 		    <artifactId>jgrapht-core</artifactId>
