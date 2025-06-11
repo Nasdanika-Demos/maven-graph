@@ -2,15 +2,38 @@
 <html>
   <head>
     <script src="https://cdn.jsdelivr.net/npm/3d-force-graph"></script>
+    <style>.node-label {
+      font-size: 12px;
+      padding: 1px 4px;
+      border-radius: 4px;
+      background-color: rgba(0,0,0,0.5);
+      user-select: none;
+    }
+</style>
   </head>
   <body>
     <div id="force-graph"></div>
-    <script>
-      const graph = new ForceGraph3D(document.getElementById('force-graph'))
+    <script type="module">
+import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';
+      const graph = new ForceGraph3D(
+              document.getElementById('force-graph'), 
+              {
+                      extraRenderers: [
+                              new CSS2DRenderer()
+                      ]
+              })
               .nodeAutoColorBy('group')
               .nodeVal('size')
               .linkDirectionalArrowLength(3.5)
               .linkDirectionalArrowRelPos(1)
+              .nodeThreeObject(node => {
+        const nodeEl = document.createElement('div');
+        nodeEl.textContent = node.name;
+        nodeEl.style.color = node.color;
+        nodeEl.className = 'node-label';
+        return new CSS2DObject(nodeEl);
+      })
+              .nodeThreeObjectExtend(true)
               .graphData({
          "nodes": [
            {
@@ -134,7 +157,7 @@
              "group": "Models"
            },
            {
-             "size": 5.948347165811356,
+             "size": 5.945812948526127,
              "name": "maven-graph",
              "id": "org.nasdanika.demos:maven-graph:jar:2025.5.0",
              "group": "Demos"
@@ -905,1327 +928,1327 @@
          "links": [
            {
              "source": "org.nasdanika.models.ecore:graph:jar:2025.5.0",
-             "value": 352.9689746846452,
+             "value": 266.4120016865993,
              "target": "org.nasdanika.models.app:gen:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:graph:jar:2025.5.0",
-             "value": 111.47536558830622,
+             "value": 277.561621555394,
              "target": "org.nasdanika.models.app:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:graph:jar:2025.5.0",
-             "value": 127.9046546202442,
+             "value": 240.80894529700012,
              "target": "org.nasdanika.core:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:graph:jar:2025.5.0",
-             "value": 230.49516924178369,
+             "value": 217.59412730740468,
              "target": "org.nasdanika.core:diagram:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:graph:jar:2025.5.0",
-             "value": 236.89486035695157,
+             "value": 116.90563117535,
              "target": "org.nasdanika.models.echarts:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:generator:jar:2025.5.0",
-             "value": 290.2236250286315,
+             "value": 271.4387958457739,
              "target": "org.nasdanika.models.app:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:drawio-model:jar:2025.5.0",
-             "value": 211.77390976052263,
+             "value": 270.9898758711373,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.education:processors:jar:2025.5.0",
-             "value": 138.14164414292338,
+             "value": 169.98424659166093,
              "target": "org.nasdanika.models.education:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.education:processors:jar:2025.5.0",
-             "value": 343.2194502915391,
+             "value": 353.4298385640634,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:ollama:jar:2025.5.0",
-             "value": 163.28075917015352,
+             "value": 111.1866963313976,
              "target": "org.nasdanika.ai:core:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:ollama:jar:2025.5.0",
-             "value": 252.50322476805528,
+             "value": 247.29372756793788,
              "target": "org.nasdanika.core:http:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.drawio:processors:jar:2025.5.0",
-             "value": 292.0916641332286,
+             "value": 122.26993119417423,
              "target": "org.nasdanika.core:drawio-model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.drawio:processors:jar:2025.5.0",
-             "value": 216.08941230125433,
+             "value": 351.30949672077566,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.nature:model:jar:2025.5.0",
-             "value": 205.08217381812494,
+             "value": 166.1781051583102,
              "target": "org.nasdanika.core:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.coverage:processors:jar:2025.5.0",
-             "value": 154.82162796531952,
+             "value": 204.71113815619296,
              "target": "org.nasdanika.models.coverage:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.coverage:processors:jar:2025.5.0",
-             "value": 342.5345438354733,
+             "value": 358.5474292793804,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:cli:jar:2025.5.0",
-             "value": 273.80289304886213,
+             "value": 210.32054289271966,
              "target": "org.nasdanika.models.rules:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:cli:jar:2025.5.0",
-             "value": 224.567038521063,
+             "value": 140.61142676761372,
              "target": "org.nasdanika.models.app:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.excel:processors:jar:2025.5.0",
-             "value": 233.3928560400513,
+             "value": 166.42506924997977,
              "target": "org.nasdanika.models.excel:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.excel:processors:jar:2025.5.0",
-             "value": 321.5569972481498,
+             "value": 384.25490946261607,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.jira:client:jar:2025.5.0",
-             "value": 302.2956572130974,
+             "value": 289.57770707471747,
              "target": "org.nasdanika.models.jira:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.architecture:model:jar:2025.5.0",
-             "value": 176.80762275557308,
+             "value": 97.49469242228106,
              "target": "org.nasdanika.core:graph-model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.architecture:model:jar:2025.5.0",
-             "value": 301.2151826175073,
+             "value": 362.60071121656495,
              "target": "org.nasdanika.models.party:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:generator:jar:2025.5.0",
-             "value": 281.9253330135937,
+             "value": 266.8648459773531,
              "target": "org.nasdanika.models.gitlab:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.echarts:graph:jar:2025.5.0",
-             "value": 39.044750274390125,
+             "value": 73.71536483110663,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:graph:jar:2025.5.0",
-             "value": 251.27060351317533,
+             "value": 184.16618912705758,
              "target": "org.nasdanika.core:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:graph:jar:2025.5.0",
-             "value": 252.04388479973372,
+             "value": 241.36047868227948,
              "target": "org.nasdanika.models.app:gen:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:mcp-server:jar:2025.5.0",
-             "value": 156.96377431299055,
+             "value": 151.6233933775342,
              "target": "org.nasdanika.ai:core:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:mcp-server:jar:2025.5.0",
-             "value": 103.54341092299666,
+             "value": 114.69079642327091,
              "target": "org.nasdanika.ai:mcp-sse:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:mcp-server:jar:2025.5.0",
-             "value": 200.69679580768477,
+             "value": 192.80993955185278,
              "target": "org.nasdanika.ai:openai:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:mcp-server:jar:2025.5.0",
-             "value": 172.08075198667817,
+             "value": 182.09349073898363,
              "target": "org.nasdanika.ai:mcp-help:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:capability-tests:jar:2025.5.0",
-             "value": 294.4585966978429,
+             "value": 240.07459606132198,
              "target": "org.nasdanika.core:maven:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.family:model:jar:2025.5.0",
-             "value": 152.71339165894088,
+             "value": 196.34108450971118,
              "target": "org.nasdanika.models.party:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.family:model:jar:2025.5.0",
-             "value": 177.29954059062376,
+             "value": 110.64749761392325,
              "target": "org.nasdanika.models.excel:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.html:alpinejs:jar:2025.5.0",
-             "value": 214.95495377942018,
+             "value": 285.7948707772711,
              "target": "org.nasdanika.html:html:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.pdf:model:jar:2025.5.0",
-             "value": 53.978262702346896,
+             "value": 174.8870948890934,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:maven-graph:jar:2025.5.0",
-             "value": 322.9137556008194,
+             "value": 200.14924574598834,
              "target": "org.nasdanika.models.echarts:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:maven-graph:jar:2025.5.0",
-             "value": 236.1035915071222,
+             "value": 248.69604818772672,
              "target": "org.nasdanika.html:3d-force-graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:maven-graph:jar:2025.5.0",
-             "value": 174.26414987308212,
+             "value": 209.9852211166718,
              "target": "org.nasdanika.models.maven:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.git:generator:jar:2025.5.0",
-             "value": 264.6887254950034,
+             "value": 258.8969635897505,
              "target": "org.nasdanika.models.git:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:jira-demo:jar:2025.5.0",
-             "value": 165.73726223149495,
+             "value": 144.63826854780794,
              "target": "org.nasdanika.models.jira:client:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:doc:jar:2024.11.0",
-             "value": 167.43509510033715,
+             "value": 170.74582507351488,
              "target": "org.nasdanika.models.function-flow:model:jar:2024.11.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:doc:jar:2024.11.0",
-             "value": 92.50812179405216,
+             "value": 157.82556641469978,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:doc:jar:2024.11.0",
-             "value": 158.21319094655126,
+             "value": 162.29782752149015,
              "target": "org.nasdanika.models.architecture:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:generator:jar:2025.5.0",
-             "value": 267.820619017973,
+             "value": 265.64757354961813,
              "target": "org.nasdanika.models.ecore:processors-doc:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:semantic-mapping:jar:2025.5.0",
-             "value": 244.73096090756906,
+             "value": 202.56810729369073,
              "target": "org.nasdanika.core:maven:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:semantic-mapping:jar:2025.5.0",
-             "value": 291.8549940063646,
+             "value": 280.96876945868644,
              "target": "org.nasdanika.models.architecture:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:semantic-mapping:jar:2025.5.0",
-             "value": 190.66762759383928,
+             "value": 231.07945757942744,
              "target": "org.nasdanika.models.education:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:semantic-mapping:jar:2025.5.0",
-             "value": 205.0921521978065,
+             "value": 223.94805990227349,
              "target": "org.nasdanika.models.family:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:semantic-mapping:jar:2025.5.0",
-             "value": 125.18065088150519,
+             "value": 183.04987551344388,
              "target": "org.nasdanika.models.nature:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:ncore-gen:jar:2025.5.0",
-             "value": 285.3536617567636,
+             "value": 301.67541356174416,
              "target": "org.nasdanika.core:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.html:bootstrap:jar:2025.5.0",
-             "value": 154.78307347977076,
+             "value": 219.2424768817273,
              "target": "org.nasdanika.html:html:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:graph:jar:2025.5.0",
-             "value": 151.0207535520274,
+             "value": 53.733644911805136,
              "target": "org.nasdanika.core:persistence:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:graph:jar:2025.5.0",
-             "value": 153.92805681790804,
+             "value": 213.07691289943642,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:graph:jar:2025.5.0",
-             "value": 251.64230560756337,
+             "value": 244.74737417419166,
              "target": "org.nasdanika.core:common:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:runtime:jar:2024.11.0",
-             "value": 203.5675272658638,
+             "value": 204.4236932287342,
              "target": "org.nasdanika.models.function-flow:model:jar:2024.11.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:runtime:jar:2024.11.0",
-             "value": 157.8234389182132,
+             "value": 146.32492226696024,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:groovy:jar:2025.5.0",
-             "value": 122.83871272739745,
+             "value": 149.37695653143857,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:mcp:jar:2025.5.0",
-             "value": 266.59776572530996,
+             "value": 268.9637761005099,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow:generator:jar:2024.11.0",
-             "value": 265.5202127434331,
+             "value": 265.8424265403621,
              "target": "org.nasdanika.models.function-flow.processors:ecore:jar:2024.11.0"
            },
            {
              "source": "org.nasdanika.models.echarts:graph-processors:jar:2025.5.0",
-             "value": 201.79410218884144,
+             "value": 298.28601575929576,
              "target": "org.nasdanika.models.echarts:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.echarts:graph-processors:jar:2025.5.0",
-             "value": 287.0441018549288,
+             "value": 192.24889590627564,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:processors:jar:2025.5.0",
-             "value": 142.0077933184499,
+             "value": 166.72799104621964,
              "target": "org.nasdanika.models.html:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:processors:jar:2025.5.0",
-             "value": 390.8423976512919,
+             "value": 357.6677899973776,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:graph-model:jar:2025.5.0",
-             "value": 294.23025514674526,
+             "value": 237.94029722991954,
              "target": "org.nasdanika.core:drawio-model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:graph-model:jar:2025.5.0",
-             "value": 139.27672163611376,
+             "value": 238.92095496805024,
              "target": "org.nasdanika.core:exec:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:graph-model:jar:2025.5.0",
-             "value": 307.5815791914224,
+             "value": 396.49612642678255,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.source:model:jar:2025.5.0",
-             "value": 374.5550653264478,
+             "value": 210.29111879795758,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:ecore:jar:2025.5.0",
-             "value": 188.99404584430516,
+             "value": 155.77720040919323,
              "target": "org.nasdanika.models.crew-ai:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:ecore:jar:2025.5.0",
-             "value": 198.0013050462831,
+             "value": 125.33321383483306,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.coverage:model:jar:2025.5.0",
-             "value": 294.4216630839503,
+             "value": 252.1443499074489,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.education:model:jar:2025.5.0",
-             "value": 161.69876153514687,
+             "value": 167.6347040147398,
              "target": "org.nasdanika.models.party:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.maven:generator:jar:2025.5.0",
-             "value": 285.8303623673279,
+             "value": 272.6546022415185,
              "target": "org.nasdanika.models.maven:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:exec-gen:jar:2025.5.0",
-             "value": 268.4916646934079,
+             "value": 232.59357266888946,
              "target": "org.nasdanika.core:exec:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:exec-gen:jar:2025.5.0",
-             "value": 136.57840147706278,
+             "value": 204.83134851892322,
              "target": "org.nasdanika.core:ncore-gen:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.pdf:generator:jar:2025.5.0",
-             "value": 261.5127685946744,
+             "value": 259.86280958062747,
              "target": "org.nasdanika.models.pdf:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ncore:generator:jar:2025.5.0",
-             "value": 233.97879069850453,
+             "value": 285.9924906518812,
              "target": "org.nasdanika.models.ncore:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:cli:jar:2025.5.0",
-             "value": 149.34574136423365,
+             "value": 62.81152728362402,
              "target": "org.nasdanika.models.gitlab:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:cli:jar:2025.5.0",
-             "value": 231.66171821399945,
+             "value": 182.45251151395942,
              "target": "org.nasdanika.models.java:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.graph:processors:jar:2025.5.0",
-             "value": 257.8595910529077,
+             "value": 258.06258591299957,
              "target": "org.nasdanika.core:graph-model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.graph:processors:jar:2025.5.0",
-             "value": 399.53564913256406,
+             "value": 408.9562663888734,
              "target": "org.nasdanika.models.ncore:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:cli:jar:2025.5.0",
-             "value": 227.33142781833905,
+             "value": 54.48248775062877,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:cli:jar:2025.5.0",
-             "value": 253.04145467793316,
+             "value": 141.50346635298334,
              "target": "org.nasdanika.models.gitlab:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:mapping:jar:2025.5.0",
-             "value": 211.90565018095583,
+             "value": 129.65123464009523,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:model:jar:2025.5.0",
-             "value": 301.62762549161187,
+             "value": 321.66483218488713,
              "target": "org.nasdanika.core:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:model:jar:2025.5.0",
-             "value": 88.56782111741843,
+             "value": 117.60433729007906,
              "target": "org.nasdanika.models.coverage:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.family:generator:jar:2025.5.0",
-             "value": 264.34932491119474,
+             "value": 261.1899019149594,
              "target": "org.nasdanika.models.family:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:processors:jar:2025.5.0",
-             "value": 49.63924267752374,
+             "value": 179.49238334675277,
              "target": "org.nasdanika.models.rules:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:processors:jar:2025.5.0",
-             "value": 327.2148275734969,
+             "value": 464.4686307101539,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:processors:jar:2025.5.0",
-             "value": 295.60139221586974,
+             "value": 314.1498701546878,
              "target": "org.nasdanika.models.architecture:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:doc:jar:2025.5.0",
-             "value": 115.61063113402611,
+             "value": 186.4559435966204,
              "target": "org.nasdanika.models.crew-ai:ecore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:doc:jar:2025.5.0",
-             "value": 234.00069904070307,
+             "value": 191.29728934607328,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.python:ecore:jar:2025.5.0",
-             "value": 131.81846687013643,
+             "value": 68.13454841001365,
              "target": "org.nasdanika.models.python:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.python:ecore:jar:2025.5.0",
-             "value": 270.278805786714,
+             "value": 213.94268382547105,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:maven:jar:2025.5.0",
-             "value": 281.4681082295162,
+             "value": 163.15175755649256,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.exec:generator:jar:2025.5.0",
-             "value": 263.63479647039,
+             "value": 265.1873558599949,
              "target": "org.nasdanika.models.exec:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:model:jar:2025.5.0",
-             "value": 312.7604280211182,
+             "value": 186.19244907097118,
              "target": "org.nasdanika.core:exec:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:model:jar:2025.5.0",
-             "value": 201.94249126175913,
+             "value": 117.7836781080248,
              "target": "org.nasdanika.html:html:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:model:jar:2025.5.0",
-             "value": 122.28106820569243,
+             "value": 163.36714061668363,
              "target": "org.nasdanika.core:mapping:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:model:jar:2025.5.0",
-             "value": 242.09724196266183,
+             "value": 315.40005995114785,
              "target": "org.nasdanika.models.bootstrap:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:executable-diagram-dynamic-proxy:jar:2025.5.0",
-             "value": 184.97899229457104,
+             "value": 63.2351780884978,
              "target": "org.nasdanika.core:maven:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:executable-diagram-dynamic-proxy:jar:2025.5.0",
-             "value": 211.68327148462362,
+             "value": 187.07540301301393,
              "target": "org.nasdanika.core:drawio:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:exec:jar:2025.5.0",
-             "value": 192.9052510753331,
+             "value": 308.13429883933856,
              "target": "org.nasdanika.core:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:http:jar:2025.5.0",
-             "value": 180.7025009913182,
+             "value": 180.20659485524132,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:diagram:jar:2025.5.0",
-             "value": 145.15477558842886,
+             "value": 148.6084876948988,
              "target": "org.nasdanika.core:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:internet-banking-system-mapping-c4:jar:2025.5.0",
-             "value": 251.25211442380524,
+             "value": 247.28043028375097,
              "target": "org.nasdanika.models.architecture:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.html:jstree:jar:2025.5.0",
-             "value": 59.48411975752693,
+             "value": 89.82179266919518,
              "target": "org.nasdanika.html:html:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:mcp-help:jar:2025.5.0",
-             "value": 46.4304845342164,
+             "value": 52.19630838269895,
              "target": "org.nasdanika.ai:mcp:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:mcp-help:jar:2025.5.0",
-             "value": 288.95980287582694,
+             "value": 294.5793720016356,
              "target": "org.nasdanika.models.app:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.html:html:jar:2025.5.0",
-             "value": 234.42154092687036,
+             "value": 317.17926615188566,
              "target": "org.nasdanika.core:common:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:tests:jar:2025.5.0",
-             "value": 273.0975349511124,
+             "value": 231.26852177460458,
              "target": "org.nasdanika.ai:openai:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:tests:jar:2025.5.0",
-             "value": 76.71070328424575,
+             "value": 90.81207491543626,
              "target": "org.nasdanika.ai:ollama:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:model:jar:2025.5.0",
-             "value": 137.78202753606573,
+             "value": 298.6813072843207,
              "target": "org.nasdanika.models.architecture:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:model:jar:2025.5.0",
-             "value": 173.8632785667805,
+             "value": 291.1881203690063,
              "target": "org.nasdanika.models.java:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:model:jar:2025.5.0",
-             "value": 342.5330973320022,
+             "value": 223.93921543137955,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.enterprise:model:jar:2025.5.0",
-             "value": 249.0187605337397,
+             "value": 271.4425481433894,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:model:jar:2025.5.0",
-             "value": 225.55552179170834,
+             "value": 295.7450572581717,
              "target": "org.nasdanika.models.source:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:model:jar:2025.5.0",
-             "value": 160.37225757368017,
+             "value": 130.3119983352747,
              "target": "org.nasdanika.models.coverage:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.architecture:processors:jar:2025.5.0",
-             "value": 343.816212170659,
+             "value": 324.9865639447106,
              "target": "org.nasdanika.models.architecture:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.architecture:processors:jar:2025.5.0",
-             "value": 65.721099500956,
+             "value": 212.11711723928428,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:mcp-sse:jar:2025.5.0",
-             "value": 56.788861161902815,
+             "value": 78.17380306946792,
              "target": "org.nasdanika.ai:mcp:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:mcp-sse:jar:2025.5.0",
-             "value": 264.0403797559396,
+             "value": 271.0863399152379,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:mcp-sse:jar:2025.5.0",
-             "value": 84.29893204422146,
+             "value": 97.25732133840722,
              "target": "org.nasdanika.core:http:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.jira:model:jar:2025.5.0",
-             "value": 377.3867062673426,
+             "value": 399.48531800003065,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:processors:jar:2025.5.0",
-             "value": 166.16434134231946,
+             "value": 194.72671384579155,
              "target": "org.nasdanika.models.gitlab:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.gitlab:processors:jar:2025.5.0",
-             "value": 383.92195213465453,
+             "value": 357.5673385964799,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:emf:jar:2025.5.0",
-             "value": 124.37881735451852,
+             "value": 135.47981549920004,
              "target": "org.nasdanika.models.app:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:emf:jar:2025.5.0",
-             "value": 226.24313995971883,
+             "value": 190.41209796271485,
              "target": "org.nasdanika.core:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:resources:jar:2025.5.0",
-             "value": 208.89692852501818,
+             "value": 171.36259657552006,
              "target": "org.nasdanika.core:common:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:cli:jar:2025.5.0",
-             "value": 68.784230976704,
+             "value": 111.92820675394925,
              "target": "org.nasdanika.models.app:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:cli:jar:2025.5.0",
-             "value": 209.8422881868857,
+             "value": 208.78017201620415,
              "target": "org.nasdanika.models.app:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:cli:jar:2025.5.0",
-             "value": 223.33630168593172,
+             "value": 151.79130342295645,
              "target": "org.nasdanika.models.ecore:processors-doc:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:cli:jar:2025.5.0",
-             "value": 147.36955030603286,
+             "value": 190.60398199699125,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:cli:jar:2025.5.0",
-             "value": 125.68788776222235,
+             "value": 254.50501349406358,
              "target": "org.nasdanika.models.crew-ai:doc:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:generator:jar:2025.5.0",
-             "value": 274.03357811409427,
+             "value": 255.1506222116018,
              "target": "org.nasdanika.models.html:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bank:model:jar:2025.5.0",
-             "value": 260.2483746526246,
+             "value": 257.3350312206577,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:processors:jar:2025.5.0",
-             "value": 135.89963926513042,
+             "value": 111.63941857270486,
              "target": "org.nasdanika.models.app:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:processors:jar:2025.5.0",
-             "value": 371.56371511769265,
+             "value": 359.4880267440971,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ecore:processors-doc:jar:2025.5.0",
-             "value": 319.66023057397,
+             "value": 349.4660075742238,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:model:jar:2025.5.0",
-             "value": 188.55998701613765,
+             "value": 164.71319976709154,
              "target": "org.nasdanika.html:bootstrap:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:model:jar:2025.5.0",
-             "value": 114.62686993889743,
+             "value": 105.69425851578188,
              "target": "org.nasdanika.models.html:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.maven:model:jar:2025.5.0",
-             "value": 169.91753976666072,
+             "value": 84.44110071546933,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.maven:model:jar:2025.5.0",
-             "value": 207.66597766614603,
+             "value": 255.14278303891493,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules:generator:jar:2025.5.0",
-             "value": 242.92178721652857,
+             "value": 270.23491640713905,
              "target": "org.nasdanika.models.rules:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.jira:processors:jar:2025.5.0",
-             "value": 184.9594244155952,
+             "value": 62.88221577988217,
              "target": "org.nasdanika.models.jira:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.jira:processors:jar:2025.5.0",
-             "value": 408.71245316607406,
+             "value": 370.58974470873534,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:cli:jar:2025.5.0",
-             "value": 107.79909465713101,
+             "value": 102.45581503260448,
              "target": "org.nasdanika.core:telemetry:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:cli:jar:2025.5.0",
-             "value": 342.3384772321771,
+             "value": 321.5940795615171,
              "target": "org.nasdanika.core:drawio:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.enterprise:processors:jar:2025.5.0",
-             "value": 112.22323461831121,
+             "value": 115.0065750939172,
              "target": "org.nasdanika.models.enterprise:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.enterprise:processors:jar:2025.5.0",
-             "value": 375.8166113332069,
+             "value": 342.52254829013486,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:ecore:jar:2024.11.0",
-             "value": 139.31888007549023,
+             "value": 208.79891478959988,
              "target": "org.nasdanika.models.function-flow:model:jar:2024.11.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:ecore:jar:2024.11.0",
-             "value": 437.1732639963162,
+             "value": 465.3650554525266,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow.processors:ecore:jar:2024.11.0",
-             "value": 235.0232137677966,
+             "value": 237.4454620900764,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.education:generator:jar:2025.5.0",
-             "value": 276.41919361855867,
+             "value": 265.79718506396017,
              "target": "org.nasdanika.models.education:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:processors:jar:2025.5.0",
-             "value": 137.66954502564542,
+             "value": 240.25956745284662,
              "target": "org.nasdanika.models.java:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:processors:jar:2025.5.0",
-             "value": 362.4563758517635,
+             "value": 373.38907536314855,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:drawio:jar:2025.5.0",
-             "value": 102.82652793934082,
+             "value": 95.45704477497605,
              "target": "org.nasdanika.models.crew-ai:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:drawio:jar:2025.5.0",
-             "value": 238.48756537179952,
+             "value": 216.56969554619727,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:cli:jar:2025.5.0",
-             "value": 93.74424020571739,
+             "value": 108.53823226998581,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:cli:jar:2025.5.0",
-             "value": 275.0240803459423,
+             "value": 310.614267708619,
              "target": "org.nasdanika.models.app:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.html:3d-force-graph:jar:2025.5.0",
-             "value": 170.5666490888,
+             "value": 197.17793290581065,
              "target": "org.nasdanika.html:html:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.architecture:generator:jar:2025.5.0",
-             "value": 255.20362406693863,
+             "value": 250.10355718266496,
              "target": "org.nasdanika.models.architecture:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:telemetry:jar:2025.5.0",
-             "value": 319.89391569059467,
+             "value": 302.7208984752536,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.party:model:jar:2025.5.0",
-             "value": 192.12094925572154,
+             "value": 246.7941729204388,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.pdf:processors:jar:2025.5.0",
-             "value": 170.23156020756608,
+             "value": 288.98093363736507,
              "target": "org.nasdanika.models.pdf:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.pdf:processors:jar:2025.5.0",
-             "value": 316.66441238629756,
+             "value": 228.04604498984412,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.party:generator:jar:2025.5.0",
-             "value": 286.4318953846406,
+             "value": 267.14258827541113,
              "target": "org.nasdanika.models.party:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.nature:generator:jar:2025.5.0",
-             "value": 282.84847700475524,
+             "value": 264.7464352848202,
              "target": "org.nasdanika.models.nature:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 157.87773845779256,
+             "value": 87.02738614396723,
              "target": "org.nasdanika:cli-launcher:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 76.91523007425853,
+             "value": 247.42211572690397,
              "target": "org.nasdanika.models.echarts:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 212.02865828697833,
+             "value": 107.35646768870535,
              "target": "org.nasdanika.models.ecore:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 242.40919597328482,
+             "value": 187.90640626429197,
              "target": "org.nasdanika.models.gitlab:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 280.0122824751095,
+             "value": 271.7041697662165,
              "target": "org.nasdanika.ai:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 355.83223099305354,
+             "value": 365.5690750257214,
              "target": "org.nasdanika.ai:openai:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 303.74897387838513,
+             "value": 326.63871508008594,
              "target": "org.nasdanika.models.app:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 238.80460640318435,
+             "value": 257.33764580738557,
              "target": "org.nasdanika.models.pdf:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:cli:jar:2025.5.0",
-             "value": 341.7691132518903,
+             "value": 302.07573053815076,
              "target": "org.nasdanika.html:alpinejs:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bank:processors:jar:2025.5.0",
-             "value": 147.29757907237294,
+             "value": 102.28627689552276,
              "target": "org.nasdanika.models.bank:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bank:processors:jar:2025.5.0",
-             "value": 373.0579127363853,
+             "value": 351.67011758336986,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:model:jar:2025.5.0",
-             "value": 282.23890146810845,
+             "value": 291.6827560414506,
              "target": "org.nasdanika.core:exec:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.crew-ai:model:jar:2025.5.0",
-             "value": 171.62262723680806,
+             "value": 238.9557728163482,
              "target": "org.nasdanika.models.python:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos.compute-graph:generator:jar:2025.5.0",
-             "value": 230.15709827527394,
+             "value": 203.76966247042964,
              "target": "org.nasdanika.demos.compute-graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos.compute-graph:model:jar:2025.5.0",
-             "value": 329.416084997953,
+             "value": 341.3379311138112,
              "target": "org.nasdanika.core:graph-model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.exec:processors:jar:2025.5.0",
-             "value": 78.75898298150646,
+             "value": 141.08223230822847,
              "target": "org.nasdanika.core:exec:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.exec:processors:jar:2025.5.0",
-             "value": 342.96147883456206,
+             "value": 340.5868046255881,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.function-flow:model:jar:2024.11.0",
-             "value": 329.20032429597813,
+             "value": 294.5428567940006,
              "target": "org.nasdanika.models.architecture:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:emf:jar:2025.5.0",
-             "value": 175.8775288574341,
+             "value": 240.45663997950209,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:emf:jar:2025.5.0",
-             "value": 343.9441266877327,
+             "value": 359.15504507208834,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.excel:generator:jar:2025.5.0",
-             "value": 269.9197576922668,
+             "value": 261.46221473734073,
              "target": "org.nasdanika.models.excel:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.source:generator:jar:2025.5.0",
-             "value": 261.5266871386521,
+             "value": 256.4200572846199,
              "target": "org.nasdanika.models.source:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.excel:model:jar:2025.5.0",
-             "value": 293.7874106010492,
+             "value": 268.49359908452567,
              "target": "org.nasdanika.core:exec:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:processors:jar:2025.5.0",
-             "value": 210.7018312446077,
+             "value": 190.64196121825793,
              "target": "org.nasdanika.models.bootstrap:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:processors:jar:2025.5.0",
-             "value": 413.1741985298189,
+             "value": 360.59250436634227,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.maven:processors:jar:2025.5.0",
-             "value": 52.01526607063336,
+             "value": 201.104586346081,
              "target": "org.nasdanika.models.maven:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.maven:processors:jar:2025.5.0",
-             "value": 355.53444439521985,
+             "value": 339.3651223916587,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules.tests:inspectors:jar:2025.5.0",
-             "value": 130.36045084185787,
+             "value": 185.16518134582637,
              "target": "org.nasdanika.models.rules.tests:rules:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules.tests:inspectors:jar:2025.5.0",
-             "value": 238.44317979122937,
+             "value": 258.8902869221629,
              "target": "org.nasdanika.models.java:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:persistence:jar:2025.5.0",
-             "value": 201.60385775903876,
+             "value": 147.71742903224296,
              "target": "org.nasdanika.core:resources:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:capability:jar:2025.5.0",
-             "value": 318.501603672395,
+             "value": 140.3504153298918,
              "target": "org.nasdanika.core:common:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.graph:generator:jar:2025.5.0",
-             "value": 255.8927413112892,
+             "value": 255.60009822524222,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.git:processors:jar:2025.5.0",
-             "value": 265.53141116390094,
+             "value": 254.26089993007176,
              "target": "org.nasdanika.models.git:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.git:processors:jar:2025.5.0",
-             "value": 460.21250018292955,
+             "value": 440.3847035761197,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:cli:jar:2025.5.0",
-             "value": 164.1692279877204,
+             "value": 161.92024750831823,
              "target": "org.nasdanika.core:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:cli:jar:2025.5.0",
-             "value": 200.3771473568987,
+             "value": 194.90165392266283,
              "target": "org.nasdanika.ai:core:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:gen:jar:2025.5.0",
-             "value": 202.3845135753606,
+             "value": 242.82682536694014,
              "target": "org.nasdanika.core:drawio:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:gen:jar:2025.5.0",
-             "value": 65.16506368508894,
+             "value": 80.79966921825662,
              "target": "org.nasdanika.models.app:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:gen:jar:2025.5.0",
-             "value": 307.7406118782804,
+             "value": 294.9286993272811,
              "target": "org.nasdanika.models.bootstrap:gen:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:gen:jar:2025.5.0",
-             "value": 269.5505588322143,
+             "value": 243.39095354173034,
              "target": "org.nasdanika.html:jstree:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.app:gen:jar:2025.5.0",
-             "value": 64.7691878187969,
+             "value": 173.91912520296822,
              "target": "org.nasdanika.models.app:emf:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.nature:processors:jar:2025.5.0",
-             "value": 165.86090184301258,
+             "value": 145.04437592095917,
              "target": "org.nasdanika.models.nature:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.nature:processors:jar:2025.5.0",
-             "value": 334.25687614414176,
+             "value": 340.3128858439118,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ncore:processors:jar:2025.5.0",
-             "value": 340.36098483599443,
+             "value": 338.3716107751447,
              "target": "org.nasdanika.core:ncore:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ncore:processors:jar:2025.5.0",
-             "value": 266.25405480106855,
+             "value": 287.10034245470047,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.ncore:processors:jar:2025.5.0",
-             "value": 272.09544318016157,
+             "value": 275.0298982879211,
              "target": "org.nasdanika.models.app:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:openai:jar:2025.5.0",
-             "value": 132.68543979163573,
+             "value": 102.71456373660548,
              "target": "org.nasdanika.ai:core:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:openai:jar:2025.5.0",
-             "value": 255.28995058500115,
+             "value": 194.54623594671773,
              "target": "org.nasdanika.core:telemetry:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:generator:jar:2025.5.0",
-             "value": 273.7430269412795,
+             "value": 263.5320295071819,
              "target": "org.nasdanika.models.bootstrap:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:concurrent-executable-diagrams:jar:2025.5.0",
-             "value": 191.3633751017209,
+             "value": 83.63052124883724,
              "target": "org.nasdanika.core:maven:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos:concurrent-executable-diagrams:jar:2025.5.0",
-             "value": 211.68815187833442,
+             "value": 165.85030552591232,
              "target": "org.nasdanika.core:drawio:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.python:model:jar:2025.5.0",
-             "value": 204.66309345440834,
+             "value": 217.28852515198201,
              "target": "org.nasdanika.models.source:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos.compute-graph:compute:jar:2025.5.0",
-             "value": 137.3754587433199,
+             "value": 134.40169329846498,
              "target": "org.nasdanika.demos.compute-graph:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos.compute-graph:compute:jar:2025.5.0",
-             "value": 209.9700915799588,
+             "value": 224.16468664627595,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.party:processors:jar:2025.5.0",
-             "value": 229.90287628037842,
+             "value": 240.9740402061296,
              "target": "org.nasdanika.models.party:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.party:processors:jar:2025.5.0",
-             "value": 286.4140596247357,
+             "value": 288.01473277900965,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.java:generator:jar:2025.5.0",
-             "value": 258.92479574142874,
+             "value": 268.7741952294858,
              "target": "org.nasdanika.models.java:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos.compute-graph:processors:jar:2025.5.0",
-             "value": 205.46654900666337,
+             "value": 191.64349933326844,
              "target": "org.nasdanika.demos.compute-graph:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.demos.compute-graph:processors:jar:2025.5.0",
-             "value": 287.97222755017634,
+             "value": 273.5091920226492,
              "target": "org.nasdanika.models.graph:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:gen:jar:2025.5.0",
-             "value": 61.52740990476213,
+             "value": 86.38509405392324,
              "target": "org.nasdanika.models.bootstrap:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:gen:jar:2025.5.0",
-             "value": 127.28198331586677,
+             "value": 94.52861403285188,
              "target": "org.nasdanika.html:bootstrap:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bootstrap:gen:jar:2025.5.0",
-             "value": 125.66210802843752,
+             "value": 115.57512592785979,
              "target": "org.nasdanika.models.html:gen:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.source:processors:jar:2025.5.0",
-             "value": 196.5471420400918,
+             "value": 164.2559937085847,
              "target": "org.nasdanika.models.source:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.source:processors:jar:2025.5.0",
-             "value": 318.60196040411194,
+             "value": 320.976872071764,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules.tests:analyzer:jar:2025.5.0",
-             "value": 116.30079868602154,
+             "value": 141.81869098590346,
              "target": "org.nasdanika.models.rules.tests:inspectors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules.tests:analyzer:jar:2025.5.0",
-             "value": 253.7890765607916,
+             "value": 215.69480974391843,
              "target": "org.nasdanika.models.gitlab:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules.tests:analyzer:jar:2025.5.0",
-             "value": 131.83468573660647,
+             "value": 169.73355165909825,
              "target": "org.nasdanika.models.java:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.bank:generator:jar:2025.5.0",
-             "value": 275.8386266653568,
+             "value": 252.3062495817723,
              "target": "org.nasdanika.models.bank:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.enterprise:generator:jar:2025.5.0",
-             "value": 277.3008302954124,
+             "value": 254.21785704439193,
              "target": "org.nasdanika.models.enterprise:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.rules.tests:rules:jar:2025.5.0",
-             "value": 269.4753278345018,
+             "value": 268.66650302530513,
              "target": "org.nasdanika.models.rules:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:drawio:jar:2025.5.0",
-             "value": 157.99199120197656,
+             "value": 118.31643825161204,
              "target": "org.nasdanika.core:persistence:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:drawio:jar:2025.5.0",
-             "value": 300.4215674733427,
+             "value": 120.50208418053778,
              "target": "org.nasdanika.core:drawio-model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:drawio:jar:2025.5.0",
-             "value": 76.60987604480103,
+             "value": 149.50200054052343,
              "target": "org.nasdanika.core:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:drawio:jar:2025.5.0",
-             "value": 144.01215462618003,
+             "value": 102.83743038707978,
              "target": "org.nasdanika.core:mapping:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.coverage:generator:jar:2025.5.0",
-             "value": 266.556109335773,
+             "value": 264.75393960838153,
              "target": "org.nasdanika.models.coverage:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:emf:jar:2025.5.0",
-             "value": 232.03313192775136,
+             "value": 213.6524078338612,
              "target": "org.nasdanika.ai:core:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.ai:emf:jar:2025.5.0",
-             "value": 301.49342585215646,
+             "value": 325.43813282772277,
              "target": "org.nasdanika.core:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 123.59391065969672,
+             "value": 155.0658175577178,
              "target": "org.nasdanika.models.app:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 257.388335188886,
+             "value": 205.27232077552196,
              "target": "org.nasdanika.models.java:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 172.14271372726955,
+             "value": 198.47828533966538,
              "target": "org.nasdanika.models.rules:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 205.1665248166591,
+             "value": 194.90285790822438,
              "target": "org.nasdanika.models.crew-ai:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 349.52510879806835,
+             "value": 338.8491766726705,
              "target": "org.nasdanika.models.architecture:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 313.66262219465665,
+             "value": 326.5775661558687,
              "target": "org.nasdanika.core:http:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 226.73936857373786,
+             "value": 229.54943524177622,
              "target": "org.nasdanika.core:groovy:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 306.71320372164905,
+             "value": 311.3714321122954,
              "target": "org.nasdanika.core:maven:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 229.6007154472066,
+             "value": 303.2763551320752,
              "target": "org.nasdanika.models.echarts:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika:cli-launcher:jar:2025.5.0",
-             "value": 59.494235611829694,
+             "value": 48.171183452169075,
              "target": "org.nasdanika.models.ecore:cli:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.family:processors:jar:2025.5.0",
-             "value": 179.85871711592125,
+             "value": 156.61319473234607,
              "target": "org.nasdanika.models.family:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.family:processors:jar:2025.5.0",
-             "value": 328.7884919815607,
+             "value": 361.4125915162451,
              "target": "org.nasdanika.models.ecore:graph:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:gen:jar:2025.5.0",
-             "value": 146.45106110742722,
+             "value": 105.26961371879487,
              "target": "org.nasdanika.models.html:model:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:gen:jar:2025.5.0",
-             "value": 192.86856664002278,
+             "value": 221.09863952151275,
              "target": "org.nasdanika.html:html:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.html:gen:jar:2025.5.0",
-             "value": 206.93075762681818,
+             "value": 108.10209736685206,
              "target": "org.nasdanika.core:exec-gen:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.drawio:generator:jar:2025.5.0",
-             "value": 272.78749732422204,
+             "value": 276.07974066618044,
              "target": "org.nasdanika.models.drawio:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.echarts:generator:jar:2025.5.0",
-             "value": 254.4148236034575,
+             "value": 266.1712480577992,
              "target": "org.nasdanika.models.echarts:graph-processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.models.jira:generator:jar:2025.5.0",
-             "value": 280.79519435564583,
+             "value": 257.8054731017805,
              "target": "org.nasdanika.models.jira:processors:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:ncore:jar:2025.5.0",
-             "value": 243.63458258594653,
+             "value": 164.17419256041356,
              "target": "org.nasdanika.core:persistence:jar:2025.5.0"
            },
            {
              "source": "org.nasdanika.core:ncore:jar:2025.5.0",
-             "value": 169.21908101431865,
+             "value": 201.7976053545768,
              "target": "org.nasdanika.core:capability:jar:2025.5.0"
            }
          ]

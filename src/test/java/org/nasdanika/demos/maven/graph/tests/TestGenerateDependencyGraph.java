@@ -19,44 +19,6 @@ import org.icepear.echarts.charts.graph.GraphEdgeLineStyle;
 import org.icepear.echarts.charts.graph.GraphEmphasis;
 import org.icepear.echarts.charts.graph.GraphSeries;
 import org.icepear.echarts.components.series.SeriesLabel;
-import org.jgrapht.alg.drawing.FRLayoutAlgorithm2D;
-import org.jgrapht.alg.drawing.model.Points;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
-import org.nasdanika.common.NasdanikaException;
-import org.nasdanika.html.HTMLFactory;
-import org.nasdanika.html.HTMLPage;
-import org.nasdanika.html.TagName;
-import org.nasdanika.html.forcegraph3d.ForceGraph3D;
-import org.nasdanika.html.forcegraph3d.ForceGraph3DFactory;
-import org.nasdanika.models.echarts.graph.Graph;
-import org.nasdanika.models.echarts.graph.GraphFactory;
-import org.nasdanika.models.echarts.graph.Item;
-import org.nasdanika.models.echarts.graph.Node;
-import org.nasdanika.models.echarts.graph.util.GraphUtil;
-import org.nasdanika.models.maven.Coordinates;
-import org.nasdanika.models.maven.Dependency;
-import org.nasdanika.models.maven.MavenFactory;
-import org.nasdanika.models.maven.Model;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
-import org.icepear.echarts.charts.graph.GraphEdgeLineStyle;
-import org.icepear.echarts.charts.graph.GraphEmphasis;
-import org.icepear.echarts.charts.graph.GraphSeries;
-import org.icepear.echarts.components.series.SeriesLabel;
 import org.icepear.echarts.render.Engine;
 import org.jgrapht.alg.drawing.FRLayoutAlgorithm2D;
 import org.jgrapht.alg.drawing.model.Point2D;
@@ -66,6 +28,12 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.nasdanika.common.Context;
 import org.nasdanika.common.NasdanikaException;
+import org.nasdanika.html.HTMLFactory;
+import org.nasdanika.html.HTMLPage;
+import org.nasdanika.html.Tag;
+import org.nasdanika.html.TagName;
+import org.nasdanika.html.forcegraph3d.ForceGraph3D;
+import org.nasdanika.html.forcegraph3d.ForceGraph3DFactory;
 import org.nasdanika.models.echarts.graph.Graph;
 import org.nasdanika.models.echarts.graph.GraphFactory;
 import org.nasdanika.models.echarts.graph.Item;
@@ -374,7 +342,19 @@ public class TestGenerateDependencyGraph {
 			.nodeAutoColorBy("'group'")
 			.nodeVal("'size'")
 			.linkDirectionalArrowLength(3.5)
-			.linkDirectionalArrowRelPos(1);
+			.linkDirectionalArrowRelPos(1)
+			.addExtraRederer("new CSS2DRenderer()")
+			.nodeThreeObject(
+					"""
+					node => {
+					        const nodeEl = document.createElement('div');
+					        nodeEl.textContent = node.name;
+					        nodeEl.style.color = node.color;
+					        nodeEl.className = 'node-label';
+					        return new CSS2DObject(nodeEl);
+					      }					
+					""")
+			.nodeThreeObjectExtend(true);
 	    
 	    // 3D force graph - https://github.com/vasturiano/3d-force-graph?tab=readme-ov-file
 	    JSONObject force3DGraph = new JSONObject();
@@ -428,7 +408,22 @@ public class TestGenerateDependencyGraph {
 		HTMLPage page = HTMLFactory.INSTANCE.page();
 		forceGraph3DFactory.cdn(page);
 		page.body(HTMLFactory.INSTANCE.div().id(forceGraphContainerId));				
-		page.body(TagName.script.create(System.lineSeparator(), forceGraph3D));
+		Tag scriptTag = TagName.script.create(
+				System.lineSeparator(),
+				"import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';",
+				System.lineSeparator(),
+				forceGraph3D).attribute("type", "module");
+		page.body(scriptTag);
+		page.head(TagName.style.create(
+				"""
+				.node-label {
+				      font-size: 12px;
+				      padding: 1px 4px;
+				      border-radius: 4px;
+				      background-color: rgba(0,0,0,0.5);
+				      user-select: none;
+				    }				
+				"""));
 	    Files.writeString(new File("docs/force-graph-3d.html").toPath(), page.toString());	
 	}
 	
