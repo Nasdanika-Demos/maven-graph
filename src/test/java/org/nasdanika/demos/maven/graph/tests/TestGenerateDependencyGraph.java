@@ -354,7 +354,15 @@ public class TestGenerateDependencyGraph {
 					        return new CSS2DObject(nodeEl);
 					      }					
 					""")
-			.nodeThreeObjectExtend(true);
+			.nodeThreeObjectExtend(true)
+			.onNodeDragEnd(
+					"""
+					node => {
+					          node.fx = node.x;
+					          node.fy = node.y;
+					          node.fz = node.z;
+					        }					
+					""");
 	    
 	    // 3D force graph - https://github.com/vasturiano/3d-force-graph?tab=readme-ov-file
 	    JSONObject force3DGraph = new JSONObject();
