@@ -432,7 +432,61 @@ public class TestGenerateDependencyGraph {
 				      user-select: none;
 				    }				
 				"""));
-	    Files.writeString(new File("docs/force-graph-3d.html").toPath(), page.toString());	
+	    Files.writeString(new File("docs/force-graph-3d.html").toPath(), page.toString());
+	   
+	    generateWithGraphUtil(graph);
+	}
+	
+	private void generateWithGraphUtil(Graph graph) throws IOException {
+		HTMLPage page = HTMLFactory.INSTANCE.page();
+		ForceGraph3D forceGraph3D = GraphUtil.asForceGraph3D(graph);
+		forceGraph3D.getFactory().cdn(page);
+		String forceGraphContainerId = "force-graph";
+		forceGraph3D
+			.elementId(forceGraphContainerId)
+			.nodeAutoColorBy("'group'")
+			.nodeVal("'size'")
+			.linkDirectionalArrowLength(3.5)
+			.linkDirectionalArrowRelPos(1)
+			.addExtraRederer("new CSS2DRenderer()")
+			.nodeThreeObject(
+					"""
+					node => {
+					        const nodeEl = document.createElement('div');
+					        nodeEl.textContent = node.name;
+					        nodeEl.style.color = node.color;
+					        nodeEl.className = 'node-label';
+					        return new CSS2DObject(nodeEl);
+					      }					
+					""")
+			.nodeThreeObjectExtend(true)
+			.onNodeDragEnd(
+					"""
+					node => {
+					          node.fx = node.x;
+					          node.fy = node.y;
+					          node.fz = node.z;
+					        }					
+					""");
+		
+		page.body(HTMLFactory.INSTANCE.div().id(forceGraphContainerId));				
+		Tag scriptTag = TagName.script.create(
+				System.lineSeparator(),
+				"import { CSS2DRenderer, CSS2DObject } from 'https://esm.sh/three/examples/jsm/renderers/CSS2DRenderer.js';",
+				System.lineSeparator(),
+				forceGraph3D).attribute("type", "module");
+		page.body(scriptTag);
+		page.head(TagName.style.create(
+				"""
+				.node-label {
+				      font-size: 12px;
+				      padding: 1px 4px;
+				      border-radius: 4px;
+				      background-color: rgba(0,0,0,0.5);
+				      user-select: none;
+				    }				
+				"""));
+	    Files.writeString(new File("docs/force-graph-3d-util.html").toPath(), page.toString());		    	    		
 	}
 	
 	private static final String GRAPH_3D = 
