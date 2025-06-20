@@ -211,9 +211,7 @@ public class TestGenerateDependencyGraph {
 				System.out.println(": " + e);
 			}
 		}
-	}
-	
-	
+	}		
 	
 	/**
 	 * Computes code stats - modules, source files, lines of code.
