@@ -101,8 +101,10 @@ public class TestGenerateDependencyGraph {
 		"crew-ai",
 		"python",
 		"jira",
-		"education"
+		"education",
+		"ledger"
 	};
+	
 	private final String[] GIT_DEMO_REPOS = { 
 //		"aws-diagram-doc",
 //		"bob-the-builder",		
