@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -101,8 +102,9 @@ public class TestGenerateDependencyGraph {
 		"crew-ai",
 		"python",
 		"jira",
-		"education",
-		"ledger"
+		"sql",
+		"compare",
+		"education"
 	};
 	
 	private final String[] GIT_DEMO_REPOS = { 
@@ -204,7 +206,7 @@ public class TestGenerateDependencyGraph {
 			String urlStr = "https://javadoc.io/doc/" + cr.groupId() + "/" + cr.artifactId() + "/" + cr.version() + "/";
 			System.out.print(urlStr);
 			try {
-				URL url = new URL(urlStr);
+				URL url = new URI(urlStr).toURL();
 				try (InputStream in = url.openStream()) {
 					in.read();
 				}
