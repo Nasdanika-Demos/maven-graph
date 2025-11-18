@@ -28,6 +28,11 @@
 			<artifactId>graph</artifactId>
 		</dependency>				
         <dependency>            
+            <groupId>org.nasdanika.core</groupId>
+            <version>2025.10.0</version>
+            <artifactId>echarts</artifactId>
+        </dependency>               
+        <dependency>            
             <groupId>org.nasdanika.html</groupId>
             <version>2025.10.0</version>
             <artifactId>3d-force-graph</artifactId>
@@ -44,11 +49,6 @@
           <version>1.39</version>
         </dependency>		
 		
-		<dependency>
-		    <groupId>org.jgrapht</groupId>
-		    <artifactId>jgrapht-core</artifactId>
-		    <version>1.5.2</version>
-		</dependency>
 		<dependency>
 		    <groupId>org.junit.jupiter</groupId>
 		    <artifactId>junit-jupiter-api</artifactId>

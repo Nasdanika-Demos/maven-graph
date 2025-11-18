@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.nasdanika.common.Context;
 import org.nasdanika.common.NasdanikaException;
+import org.nasdanika.echarts.GraphSeriesChartGenerator;
 import org.nasdanika.html.HTMLFactory;
 import org.nasdanika.html.HTMLPage;
 import org.nasdanika.html.Tag;
@@ -104,7 +105,8 @@ public class TestGenerateDependencyGraph {
 		"jira",
 		"sql",
 		"compare",
-		"education"
+		"education",
+		"travel"
 	};
 	
 	private final String[] GIT_DEMO_REPOS = { 
@@ -365,6 +367,23 @@ public class TestGenerateDependencyGraph {
 					          node.fz = node.z;
 					        }					
 					""");
+		
+		
+		// GraphSeriesChartGenerator test
+		
+		GraphSeriesChartGenerator graphSeriesChartGenerator = new GraphSeriesChartGenerator() {
+			
+			@Override
+			protected GraphSeries generateGraphSeries() {
+				GraphSeries ret = super.generateGraphSeries();
+				graph.configureGraphSeries(ret);
+				return ret;
+			};
+			
+		};
+		
+		graphSeriesChartGenerator.write(new File("target/maven-graph-series-test.html"), "Graph Series test",  true);
+		
 	    
 	    // 3D force graph - https://github.com/vasturiano/3d-force-graph?tab=readme-ov-file
 	    JSONObject force3DGraph = new JSONObject();
