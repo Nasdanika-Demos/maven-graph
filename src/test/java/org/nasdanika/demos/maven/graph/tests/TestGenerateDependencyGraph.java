@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.icepear.echarts.charts.graph.GraphEdgeLineStyle;
 import org.icepear.echarts.charts.graph.GraphEmphasis;
@@ -73,7 +74,7 @@ public class TestGenerateDependencyGraph {
 		
 	}
 		
-	private final String[] GIT_REPOS = { "core", "html", "cli", "ai" /* "cli" , "nasdanika.github.io", "retrieval-augmented-generation" */};	
+	private final String[] GIT_REPOS = { "core", "html", "cli", "ai", "emf/emf-transaction" /* "cli" , "nasdanika.github.io", "retrieval-augmented-generation" */};	
 	private final String[] GIT_MODEL_REPOS = { 
 		"echarts",
 		"ecore",
@@ -106,8 +107,32 @@ public class TestGenerateDependencyGraph {
 		"sql",
 		"compare",
 		"education",
-		"travel"
+		"travel",
+		
+		"a2a",                                   
+		"azure",                                 
+		"capability",                            
+		"change",                                
+		"elk",                                   
+//		emf-validation                        
+		"json-schema",                           
+		"kubernetes",                            
+		"multiple-criteria-decision-analysis",   
+		"process",                               
+		"product-management",                    
+		"professional-knowledge-graph",          
+		"resume",                                
+		"risk",                                  
+		"semantic-context",                      
+		"semantic-kernel",
+//		shiro
+//		smart-home		
+		"telemetry",                             
+		"terraform",                             
+		"trading",                               
+		"uaf"                                    		
 	};
+	
 	
 	private final String[] GIT_DEMO_REPOS = { 
 //		"aws-diagram-doc",
@@ -608,7 +633,7 @@ public class TestGenerateDependencyGraph {
 		for (String gitRepo: GIT_REPOS) {
 			repoStats(new File("../../git/" + gitRepo), measurementConsumer, mavenModelConsumer);
 		}
-		for (String gitModelRepo: GIT_MODEL_REPOS) {
+		for (String gitModelRepo: Stream.of(GIT_MODEL_REPOS).distinct().toList()) {
 			repoStats(new File("../../git-models/" + gitModelRepo), measurementConsumer, mavenModelConsumer);
 		}
 		for (String gitModelRepo: GIT_DEMO_REPOS) {
